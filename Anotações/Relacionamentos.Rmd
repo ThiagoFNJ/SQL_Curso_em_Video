@@ -1,0 +1,62 @@
+---
+title: "Modelo relacional"
+author: "Thiago Nogueira"
+date: "02/02/2021"
+output: html_document
+---
+
+## Conceitos iniciais
+
+Em um banco de dados relacional, as tabelas recebem o nome de _entidades_. Cada entidades possui _registros/tuplas_, com características chamadas de _atributos_ e um indentificador que distingue os registros entre sí chamado de _chave primária_. 
+
+Neste modelo, duas enidades podem estar ligadas. Estas ligações são chamadas de _relacionamentos_. 
+
+## Diagrama de relacionamento 
+
+O diagrtama que esquematiza o relacinamento entra as entidades que compõem o banco de dados é chamado de **diagrama de relacionamento**. 
+
+## Tipos de relacionamento 
+
+Os relacionamentos entre duas entidades se dão através de suas chaves, e podem ser classificados de acordo com a forma com que os registros de uma entidade se ligam com os da outra. Em suma, essa ligação se dá através da transferência de chaves primárias que, ao iriem para outra entidade, passam a ser chamadas de _chaves estrangeiras_. 
+
+### um-para-um
+
+Quando cada registro de uma entidade só pode se relacionar com apenas um registro de outra entidade, e os registros da outra entidade também só podem se relacionar com um registro da primeira entidade. 
+
+$1 <-> 1$
+
+**Regra de relacionamento:** Define uma entidade dominante -> Pega a chave primária da entidade não-dominante e joga para a entidade dominante como chave estrangeira. Em alguns casos recomenda-se fundir ambas as tabelas em uma única. 
+
+### um-para-muitos
+
+Quando cada registro de uma entidade se relaciona com mais de um registro da outra, mas o contrário não é válido. 
+
+$1 <-> n$ 
+
+**Regra de relacionamento:** Pega a chave primária da entidade 1 e joga para a entidade n como chave estrangeira. A chave estrangeira não precisa ter o mesmo nome que tem na tabela sua tabela original, mas sim o seu tipo e comprimento.
+
+>alter table gafanhotos add column cursopreferido int;
+>alter table gafanhotos add foreign key (cursopreferido)
+>references cursos(idcurso);
+>update gafanhotos set cursopreferido = '6' where id = '1';
+
+### muitos-para- muitos
+
+Quando cada registro de uma entidade pode se relacionar com mais de um registro da outra entidade. e os registros dessa outra entidade também podem se relacionar com mais de um registro da primeira entidade. 
+$n <-> n$ 
+
+**Regra de relacionamento:** O relacionamento torna-se uma entidade com atributos próximos -> as duas entidades iniciais passam a se relacionar com a nova entidade da forma um-para-muitos (1 <-> n), ou seja, as chaves primárias viram chaves estrangeiras na nova entidade. 
+
+>create table gafanhoto_assiste_curso (
+id int NOT NULL AUTO_INCREMENT, 
+data date, 
+idgadanhoto int, 
+idcurso, 
+PRIMARY KEY (id), 
+FOREIGN KEY (idgafanhoto) REFERENCES gafanhotos(id), 
+FOREIGN KEY (idcurso) REFERENCES  cursos(idcurso)
+) DEFAULT CHARSET = utf8;
+
+## Integridade referêncial
+
+Não é possível deletar tuplas de uma tabela quando alguma de suas colunas são chaves estrangeiras em outra tabela. Isto porque, a operação fere o principio de integridade de transação. 

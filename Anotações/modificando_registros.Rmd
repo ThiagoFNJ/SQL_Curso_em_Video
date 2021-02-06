@@ -1,0 +1,44 @@
+---
+title: "Manipulação de dados"
+author: "Thiago Nogueira"
+date: "23/01/2021"
+output: html_document
+---
+
+
+O comando _update_ permite que façamos alterações na conteúdo das tabelas, isto é, nos dados. 
+Por segurança, o MySQL Workbench bloqueia alterações em mais de um registro da tabela, a fim de evitar que dados sejam alterados por engano. É possível desabilitar esta opção em Edit > Preferences > SQL Editor e desmarcar a caixa "safe update". 
+
+## Atualizando dados 
+
+A estrutura do comando é bem simples, quando traduzido fica algo como "atualizar na tabela _X_, os dados J = 1, K = 2,  em que identificador = 4". 
+
+>update table
+set var = '2', var2 = '3' 
+where id = '4'; 
+
+Podemos adicionar uma camada extra de segurança ao update, limitando a quantidade de registros que serão alterados pelo comando. 
+
+>update table
+set var = '2', var2 = '3' 
+where id = '4'
+limit 1; 
+
+## Removendo dados
+
+Com o comando _delete_  podemos deletar um ou mais registros da tabela.
+
+>delete from _tabela_
+where var = '2';
+
+Da mesma forma que ao atualizar, podemos limitar o número de linhas deletadas pelo comando.
+
+>delete from _tabela_
+where var = '2'
+limit 2;
+
+## Apagando todos os registros da tabela. 
+
+O comando _truncate table_ apaga completamente, e sem retorno, os registros de uma tabela. Vale observar que este comando não apaga a tabela: a sua estrutura e campos permanecem, apenas o conteúdo é deletado. 
+
+>truncate table _nome da tabela_; 

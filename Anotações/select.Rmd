@@ -1,0 +1,101 @@
+---
+title: "Select"
+author: "Thiago Nogueira"
+date: "28/01/2021"
+output: html_document
+---
+
+Comando usado para selecionar dados de uma tabela. 
+DQL 
+
+A sintaxe básica do comando é simples:
+
+> select (variável) from (tabela);
+
+## Selecionando todos os dados
+
+Usamos o asterísco no lugar da variável para indicar que a consulta retorne todas as colunas. 
+
+> select * from tabela; 
+
+## Ordenando o resultado 
+
+O termo _order by_ indica que a consulta deve ser ordenada pelos valores de uma coluna. Por padrão, a ordenação é ascendente, se quisermos o contrário, devemos indicar a palavra _des_ após a variável. 
+
+> select * from tabela
+> order by variável desc;
+
+Também é possível ordenr pelos valores de mais de uma coluna, indicando o seus nomes junto após o _order_. 
+
+## where - filtrando dados 
+
+Podemos filtrar os resultados da consulta para que coinscidam com algums critérios, indicando a palavra _where_.
+
+> select ano, curso, from cursos
+> where ano = '2016'
+> order by carga desc;
+
+_A coluna com os valores a serem filtrados não precisa fazer parte do resultset_
+
+### betweeN
+
+>select nome, ano from cursos
+> where ano between 2014 and 2016
+order by ano, nome desc; 
+
+### in 
+
+> select nome, ano from cursos
+> where ano in (2014,2015, 2020)
+> order by ano, nome desc; 
+
+### Filtrado por mais de uma coluna - and e or 
+
+É possível filtrar os valores das linhas com base em mais de uma coluna, usanod os operadores and e or.
+**And** indica uma interseccção, serão retornados as linhas em que ambas as colunas possuam os valores especificdos.
+**OR** nãa indica exclusividade. Se a linha corresponder a qualquer uma das condições, ela será retornada na consulta. 
+
+>select nome, ano from cursos
+> where ano in (2013,2015,2020) and nome = 'PHP' 
+order by ano, nome desc; 
+
+### Wildcards - like %, _
+
+É possível utilizar o operador % para selecionar linhas que _contenham_ um valor especificado, como um pedaço de uma string, 
+O operador % inclui nos resultados todos os valores que contiverem o trecho buscado de acordo com a posição do %.
+O operador _ indica no like quando deve haver um espaço dentro do trecho buscado. 
+
+
+>select ocorrencia, ano from cursos
+> where ocorrencia like '%des%'
+order by ano, nome desc; 
+
+## DISTINCT - selecionando valores úincos
+
+Usamos o termo _distinct_ para selecionar os valores únicos em dada coluna de uma tabela. 
+
+> select DISTINCT ocorrencia from chamados; 
+
+## Funções de agregação 
+
+1. count() - conta a quantidade de linhas que correspondem aos critérios
+2. max() - retorna o valor máximo encontrado na coluna
+3. min() - retorna o valor mínimo encontrado na coluna
+4. sum() - soma todos os valores da coluna
+5. avg() - calcula a média dos valores das colunas 
+
+
+## Agrupamento & agregação
+
+Calcula a função de agragação para cada categoria existente em determinada coluna.
+
+> select totaula, count(*) from cursos
+group by totaulas
+order by totaulas; 
+
+É possível filtrar as categorias que serão retornardas com o termo _HAVING_. Este termo só funcionara com o campo especificado no _group by_.
+
+> select totaula, count(*) from cursos
+group by totaulas
+having count(*) >= 10
+order by totaulas; 

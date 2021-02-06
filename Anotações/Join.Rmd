@@ -1,0 +1,61 @@
+---
+title: "Join"
+author: "Thiago Nogueira"
+date: "04/02/2021"
+output: html_document
+---
+
+## Sintaxe básica
+
+Uma vez estabelecidas as relações entre duas entidades, pode-se usar tais relacionamentos para selecionar dados de ambas as tabelas. É utilizado o comando _select_ aliado ao comando _join_. 
+
+>select gafanhotos.nome, cursos.nome, cursos.ano
+>from gafanhoto join cursos 
+>on cursos.idcurso = gafanhotos.cursopreferido; 
+
+A clausula _on_ especifica a relação entre as duas entidades, indicando qual coluna de chave estrangeira equivale à coluna da chave primária. 
+
+## Definindo a forma do join
+
+Existem algumas formas de obter dados entre entidades relacionadas de um banco de dados. Cada forma é especificada por um termo que acompanha o _join_. 
+É importante planejar e até mesmo fazer um rascunho do retorno desejado para que se possa escrever a query de forma correta, especificando o termo que companhará o _join_. 
+
+### Inter join 
+
+O _inner join_ retorna apenas os dados contidos na intersecção entre as entidades. Quando não definimos um termo no _join_, o SQL retornará um _inner join_, pois este é o seu default. 
+
+>select g.nome, c.nome, c.ano
+from gafanhotos as g inner join cursos as c
+on c.idcurso = g.cursopreferido; 
+
+É possível operar o _join_ com mais de duas entidades estabelecendo as relações entre elas.
+
+>select g.nome, c.nome from gafanhotos as g
+join gafanhoto_assiste_curso as a
+on g.id = a.idgafanhoto
+join cursos as c
+on a.idcurso = c.idcurso;
+
+### outer join - left e right
+
+O _outer join_ retornará não só a intersecção entre as entidades, mas também o conjunto completo de uma entidade especificada. 
+
+Para definir qual entidade terá os dados completos, deve-se tomar como referêncial a príópria query:
+
+No exemplo abaixo, a entidade "gafanhotos" está à esquerda e a entidade "cursos" está à direita.  Assim, se quisermos os dados completos da entidade "gafanhotos" - incluindo os registros que não tiverem tuplas correspondentes em "cursos", incluímos o termo _left_ junto com o _outer join_. 
+
+>select gafanhotos.nome, cursos.nome, cursos.ano
+>from gafanhoto left outer join cursos 
+>on cursos.idcurso = gafanhotos.cursopreferido; 
+
+Da mesma forma, se quiséssemos todos os registros da tabela "cursos", independente se eles possuem um correspondente em "gafanhotos", utilizariamos o termo _right_. 
+
+>select gafanhotos.nome, cursos.nome, cursos.ano
+>from gafanhoto right outer join cursos 
+>on cursos.idcurso = gafanhotos.cursopreferido; 
+
+Na verdade, uma vez definidos o _right_ **ou** o _left_, poderiamos simplesmente suprimir o _outer_, que ficará implicito na query. 
+
+>select gafanhotos.nome, cursos.nome, cursos.ano
+>from gafanhoto right join cursos 
+>on cursos.idcurso = gafanhotos.cursopreferido; 

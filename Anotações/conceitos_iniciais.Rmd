@@ -1,0 +1,212 @@
+---
+title: "Curso MySQL - Curso em Video"
+output: html_notebook
+---
+
+
+## Hstória
+Antes da popularização dos computadores - quando eles era do tamanho de cômodos inteiros e disponiveis apenas nas universidades e quarteis militares - os dados eram armazenados em papel. Uma forma muito comum de registrar dados era em fichas, contendo, por exemplo, nome, rg, gênero, endereço e etc. Essas fichas eram agrupadas e armazenadas em pastas que, por sua vez, eram guardadas em arquivos. 
+
+Com a modernização e o barateamento dos computadores, essa tecnologia ficou acessível também a empresas e entidades governamentais. Surgiu, então, a necessidade de converter todo o acerto de papel para o meio digital. 
+
+Nesse novo paradigma, o armazenamento seguiu o modelo antigo, apenas com outra nomenclatura: as fichas viraram registro, as pastas viraram tabelas e os arquivos metálico viraram arquivos digitais. 
+
+Inicialmente, os dados eram guardados em fitas magnéticas ou cartões perfurados, fazendo, assim, com que as fichas fossem ordenadas de forma sequêncial, o que era custoso e demorado. 
+A evolução disso foi identificar cada registro com um índice e então fazer a busca através dele, a chamda _chave de registro_.
+
+## Surgimento do banco de dados
+Na década de 1970, o Departamento de Defesa dos EUA realizou um evento de tecnologia chamado CODESYL. Dois importantes produtos das discussões que lá ocorreram são a linguagem de programação COBOL e a tecnologia de Banco de Dados, proposta pela empresa IBM. 
+
+O banco de dados tem como principais ferramentas e características: 
+
+1. Base de dados
+2. Sistema gerênciador
+3. Linguagem de exploração
+4. Programas adicionais
+
+## Primeiros modelos de bancos de daods
+A partir daí foram propostos diversos modelos de organização dos dados dentro dos bancos.
+
+1. Modelo hierárquico
+Os dados estão interligados por uma proposição de hierarquia entre eles, níveis. 
+
+2. Modelo em rede
+Os dados não são mais interligados por hierariquia, a partir de um pressuposto de importância, eles teriam iguais nivies, interligados como uma rede. 
+
+3. Modelo relacional
+Os dois modelos anteriores organizam os dados mas não permitem uma relação entre as tabelas. Este novo modelo permite que se relacione tabelas  a partir de parâmetros estabelecidos pelo construtor do banco. É um modelo muito popular ainda hoje, principalmente para ensinar fundamentos de bancos de dados
+
+## A linguem de exploração
+
+Structed Query Lenaguage - SQL - foi proposta como uma linguagem de programação universal para explorar e extrair dados dos bancos. Contudo, com o passar do tempo, diversas empressas desenvolveram versões próprias, adicionando funções e modificando outras. As agências americanas de padronização ANSI e ISO registraram uma versão do SQL como a padrão, a fim de retornar à proposta inicial da linguagem. Hoje, quando se ouve falar que um banco é compatível com iso/ANSI, significa que ele usa a SQL padronizada. 
+
+## Principais bancos de dados 
+
+Pagas: Oracle, SQL Server, IBM e dBase
+Livres: My SQL, MariaDB, Firebird e Postgrees
+
+
+#Instalando programs e configurando o ambiente. 
+
+## MySQL Workbech 
+
+Ambiente de trabalho do MySQL. 
+Download: https://dev.mysql.com/downloads/workbench/
+
+Talvez seja necessário instalar aplicações requeridas para o funcionamento do Workbench. 
+Veja mais na aba de informações da página de download do Workbench. 
+
+Visual Studio 
+https://visualstudio.microsoft.com/fr/downloads/?q=Visual+C%2B%2B+Redistributable+for+Visual+Studio+2019
+
+.NET Framework
+https://www.microsoft.com/en-us/download/details.aspx?id=30653
+
+## WAMP Server
+
+WAMP é o acrônimo para Windows, Apache, MySQL e PHP. Ele nada mais é do um pacote de softwares.
+
+Download: https://sourceforge.net/projects/wampserver/
+
+## Pós donwload 
+
+Inicializar o WAMP vai fazer aparecer o seu ícone ao lado do calendário. Espere que ele fique verde, clique sobre ele e então em MySQL > MySQL Console. O servidor será inicializado. 
+
+Inicie então o Workbench. Ele identificará que existe um servidor local disponível. Clique sobre o botão do servidor. 
+
+## Primeira tabela
+
+>create database cadastro;
+>use cadastro;
+>create table pessoas (
+>nome varchar(30),
+>idade tinyint,
+>sexo char(1),
+>peso float,
+>altura  float,
+>nacionalidade varchar(20)
+>);
+>describe pessoas;
+
+Esta é uma tabela que criada a partir de princiípios bem básicos, definindo algumas características dos campos. Contudo, ela pode ser melhorada. 
+
+## Melhorando database e tabelas
+
+Primeiro, deletaremos a base anterior:
+
+>drop databse cadastro;
+
+E o recriamos com outros parâmetros, usando as chamadas _constraints_, regras para o banco de dados. 
+
+>create database cadastro
+>default character set utf8
+>default collate utf9_general_i; 
+
+Essas linhas a mais definem que o banco de dados usará o padrão de texto que inclúi acentuações e símbolos gerais. Utf-8 é um padrõa de encodificação. 
+
+Criamos novamente a tabela:
+
+>use database;
+>create table pessoas (
+id int not null auto_increment,
+nome varchar(30) not null,
+nascimento date, 
+sexo enum('F', 'M'), 
+peso decimal(5, 2),
+altura decimaal(3, 2), 
+nacionalidade varchar(30) default 'Brasil',
+primary key(id)
+) default charset = utf8;
+
+Essas modificações implementam regras mais rígidas de formatação da tabela, bem como incluiem uma chave primária, isto é, um número único para cada registro. 
+
+
+## inserindo valores na tabela
+
+O comando _insert into_ permite que insiramos registros em uma tabela. Existem algumas formas de fazer isso
+
+### Padrão 
+
+insert into pessoas
+( id, nome, nascimento, sexo, peso, altura, nacionalidade)
+values
+(1,'Rodrigo', '1995-02-01','M', '104.0','1.80', 'Brasil'); 
+
+### Omitindo valores auto iterados ou default
+
+insert into pessoas
+( id, nome, nascimento, sexo, peso, altura, nacionalidade)
+values
+(default,'Rodrigo', '1995-02-01','M', '104.0','1.80', default);
+
+### A partir da ordem dos campos
+
+insert into pessoas values
+(1,'Rodrigo', '1995-02-01','M', '104.0','1.80', 'Brasil'); 
+
+### Mais de um registro de uma única vez
+
+insert into pessoas
+( id, nome, nascimento, sexo, peso, altura, nacionalidade)
+values
+(1,'Rodrigo', '1995-02-01','M', '104.0','1.80', 'Brasil'),
+(default,'Thiago', '1998-10-30','M', '95.0','1.82', default); 
+
+## Alterando a estrutura da tabela 
+
+Uma vez criada uma tabela, é possível alterar a sua estrutura, adicionando e removendo colunas através do comando _alter table_. Veremos algumas de suas aplicações a seguir. 
+
+### Adicionar colunas
+
+>alter table _nome da tabela_
+add column _nome da nova coluna_ **tipo da nova coluna**;
+
+Também é possível, assim como no momento da criação da tabela, adicionar regras de inserção de dados na coluna como _not null_, _unique_ e _unsigned_
+
+Por padrão, a nova coluna será posicionada no final da tabela. Podemos informar a posição indicando o nome da coluna da qual a nova deve ficar depois (after) ou informando se ela deve ser a primeira coluna da tabela (first). 
+
+>alter table _nome da tabela_
+add column _nome da nova coluna_ **tipo da nova coluna** after _coluna já existente_;
+
+>alter table _nome da tabela_
+add column _nome da nova coluna_ **tipo da nova coluna** first;
+
+### Removendo colunas
+
+>alter table _nome da tabela_
+drop column _nome da nova coluna_;
+
+Remover uma coluna irá apagar todos os dados contidos nela. 
+
+### Modificando a estrutura da coluna
+
+>alter table _nome da tabela_
+modify _nome da coluna_ **novo tipo da coluna**;
+
+### Renomeando a coluna
+
+>alter table _nome da tabela_
+change _nome da coluna_ _novo nome da coluna_ **novo tipo da coluna**;
+
+### Renomeando a tabela
+
+>alter table _nome antigo da tabela_
+rename _novo nome da tabela_;
+
+### Deletando a tabela
+
+>drop table if exists _nome da tabela_; 
+
+## Sub-estruturas do SQL 
+
+A linguagem SQL tem seus comando compartimentados conforme a sua função. 
+
+### DDL - Database Definition Lenguage
+
+São os comandos de criação e definição do SQL.
+
+Ex.: create table, create database, alter table, drop table
+
+### DML - Database Manipulation Lenguage
+
+Ex.: insert into 
